@@ -13,7 +13,7 @@ public class Pedido {
     private String horaAbriu;
     private String horaFechou;
     private LocalTime horaFechamento;
-    private int numPedido;
+    private int numPedido = 0;
     private List<Item> itens;
     private boolean conta; // enquanto for true, podem ser adicionados mais itens ao pedido.
 

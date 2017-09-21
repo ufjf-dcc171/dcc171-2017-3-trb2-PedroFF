@@ -1,6 +1,7 @@
 
 package trabalho01_dcc171;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /*
@@ -17,6 +18,7 @@ public class Mesa {
     
     public Mesa(String numMesa) {
         this.numMesa = numMesa;
+        this.pedidos = new ArrayList<>();
     }
 
     public String getNumMesa() {

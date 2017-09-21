@@ -93,6 +93,16 @@ class JanelaMesa extends JFrame {
                 janelaPedido.solicitaNovoPedido();
             }
         });
+        
+        excluiPedido.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(lstPedidos.isSelectionEmpty()){ return; }
+                mesas.remove(lstPedidos.getSelectedValue());
+                lstPedidos.clearSelection();
+                lstPedidos.updateUI();
+            }
+        });
     }
 
     public void adicionaPedido(Pedido p) {
