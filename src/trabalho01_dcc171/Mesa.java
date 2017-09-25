@@ -9,23 +9,21 @@ Essa classe representará as mesas do estabelecimento sem levar em consideraçã
 quantidade de pessoas na mesa, ou quantas pessoas cabem na mesa.
  */
 public class Mesa {
-    private String numMesa; //essa variável vai controlar o fluxo de mesas.
-    
+    private int numMesa = 1; //essa variável vai controlar o fluxo de mesas.
     private List<Pedido> pedidos; // essa lista vai controlar os pedidos por mesa.
     //Durante uma noite, são pessoas diferentes que passam pelas mesas.
+
     
-    private int geradorID; // ele controlará o número de pedidos de cada mesa. 
-    
-    public Mesa(String numMesa) {
-        this.numMesa = numMesa;
+    public Mesa(Integer i) {
+        this.numMesa = i;
         this.pedidos = new ArrayList<>();
     }
 
-    public String getNumMesa() {
+    public int getNumMesa() {
         return numMesa;
     }
 
-    public void setNumMesa(String numMesa) {
+    public void setNumMesa(int numMesa) {
         this.numMesa = numMesa;
     }
 
@@ -41,15 +39,4 @@ public class Mesa {
     public void setPedidos(List<Pedido> pedidos) {
         this.pedidos = pedidos;
     }
-
-    public int getGeradorID() {
-        return geradorID;
-    }
-
-    public void setGeradorID(int geradorID) {
-        this.geradorID = geradorID;
-    }
-    
-    
-    
 }

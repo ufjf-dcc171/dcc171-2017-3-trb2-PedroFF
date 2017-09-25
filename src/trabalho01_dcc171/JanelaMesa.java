@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalTime;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -19,20 +20,21 @@ import javax.swing.event.ListSelectionListener;
 
 class JanelaMesa extends JFrame {
 
+    static int numMesas = 1;
+    private int numPedidos = 0;
     private final List<Mesa> mesas;
     private final JList<Mesa> lstMesas = new JList<>(new DefaultListModel<>());
     private final JList<Pedido> lstPedidos = new JList<>(new DefaultListModel<>());
     private final JButton criaMesa = new JButton("Cria mesa");
     private final JButton excluiMesa = new JButton("Exclui Mesa");
     private final JButton criaPedido = new JButton("Cria Pedido");
-    private final JButton excluiPedido = new JButton("Exclui Pedido");
+    private final JButton excluiPedido = new JButton("Fechar Pedido");
     private final JButton addItem = new JButton("Adiciona Item");
     private final JButton excluiItem = new JButton("Exclui Item");
-    private final JanelaPedido janelaPedido = new JanelaPedido();
 
     public JanelaMesa(List<Mesa> sampleData) {
         super("Mesas");
-        setMinimumSize(new Dimension(900, 300));
+        setMinimumSize(new Dimension(700, 300));
         this.mesas = sampleData;
         lstMesas.setModel(new MesaListModel(mesas));
         add(new JScrollPane(lstMesas), BorderLayout.WEST);
@@ -64,12 +66,11 @@ class JanelaMesa extends JFrame {
         criaMesa.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String cod = JOptionPane.showInputDialog("Número da nova mesa");
-                if (cod != null && !cod.isEmpty()) {
-                    Mesa t = new Mesa(cod);
-                    mesas.add(t);
-                    lstMesas.updateUI();
-                }
+                Mesa t = new Mesa(numMesas);
+                mesas.add(t);
+                lstMesas.updateUI();
+                numMesas++;
+
             }
         });
 
@@ -77,7 +78,7 @@ class JanelaMesa extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (lstMesas.isSelectionEmpty()) {
-                    return;
+                    JOptionPane.showMessageDialog(null, "Você deveria ter selecionado uma mesa", "ERRO!", JOptionPane.ERROR_MESSAGE);
                 }
                 mesas.remove(lstMesas.getSelectedValue());
                 lstMesas.clearSelection();
@@ -85,22 +86,29 @@ class JanelaMesa extends JFrame {
             }
         });
 
-        janelaPedido.setJanelaMesa(this);
         criaPedido.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                janelaPedido.solicitaNovoPedido();
             }
         });
-        
+
         excluiPedido.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(lstPedidos.isSelectionEmpty()){ return; }
-                mesas.remove(lstPedidos.getSelectedValue());
-                lstPedidos.clearSelection();
+                if (lstPedidos.isSelectionEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Você deveria ter selecionado um Pedido", "ERRO!", JOptionPane.ERROR_MESSAGE);;
+                }
+                lstPedidos.getSelectedValue().setConta(false);
+                lstPedidos.getSelectedValue().setHoraFechamento(LocalTime.now());
                 lstPedidos.updateUI();
+            }
+        });
+
+        addItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
             }
         });
     }
@@ -109,9 +117,7 @@ class JanelaMesa extends JFrame {
         lstMesas.getSelectedValue().getPedidos().add(p);
         lstMesas.updateUI();
         lstPedidos.updateUI();
-        janelaPedido.setVisible(false);
+
     }
 
 }
-
-

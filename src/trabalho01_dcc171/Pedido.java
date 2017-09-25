@@ -50,9 +50,20 @@ public class Pedido {
         return numPedido;
     }
 
+    public void setHoraFechamento(LocalTime horaFechamento) {
+        this.horaFechamento = horaFechamento;
+    }
+    
+    
     @Override
     public String toString() {
+        if (this.conta == false){ 
+            
+            return "Pedido "+this.numPedido+ "|| Hora de Abertura: " + this.horaAbriu + "|| Hora que Fechou: " +horaFechamento.toString();
+            
+        }else{
         return "Pedido "+this.numPedido+ "|| Hora de Abertura: " + this.horaAbriu;
+        }
     }
     
     
