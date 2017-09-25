@@ -30,7 +30,8 @@ class JanelaMesa extends JFrame {
     private final JButton criaPedido = new JButton("Cria Pedido");
     private final JButton excluiPedido = new JButton("Fechar Pedido");
     private final JButton addItem = new JButton("Adiciona Item");
-    private final JButton excluiItem = new JButton("Exclui Item");
+    private final JButton cardapio = new JButton("Cardápio");
+    private JanelaItem janelaitem = new JanelaItem();
 
     public JanelaMesa(List<Mesa> sampleData) {
         super("Mesas");
@@ -45,7 +46,7 @@ class JanelaMesa extends JFrame {
         botoes.add(criaPedido);
         botoes.add(excluiPedido);
         botoes.add(addItem);
-        botoes.add(excluiItem);
+        botoes.add(cardapio);
         add(botoes, BorderLayout.SOUTH);
 
         lstMesas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -89,7 +90,11 @@ class JanelaMesa extends JFrame {
         criaPedido.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                if (lstMesas.isSelectionEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Você deveria ter selecionado uma mesa", "ERRO!", JOptionPane.ERROR_MESSAGE);
+                }
+                
+                
             }
         });
 
