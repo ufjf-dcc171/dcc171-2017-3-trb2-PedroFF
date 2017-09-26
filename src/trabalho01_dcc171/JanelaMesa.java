@@ -21,7 +21,7 @@ import javax.swing.event.ListSelectionListener;
 class JanelaMesa extends JFrame {
 
     static int numMesas = 1;
-    private int numPedidos = 0;
+    private int numPedidos = 1;
     private final List<Mesa> mesas;
     private final JList<Mesa> lstMesas = new JList<>(new DefaultListModel<>());
     private final JList<Pedido> lstPedidos = new JList<>(new DefaultListModel<>());
@@ -93,6 +93,13 @@ class JanelaMesa extends JFrame {
                 if (lstMesas.isSelectionEmpty()) {
                     JOptionPane.showMessageDialog(null, "Você deveria ter selecionado uma mesa", "ERRO!", JOptionPane.ERROR_MESSAGE);
                 }
+                
+                Pedido p = new Pedido(numPedidos);
+                lstMesas.getSelectedValue().getPedidos().add(p);
+                lstPedidos.updateUI();
+                lstMesas.updateUI();
+                numPedidos++;
+                
                 
                 
             }

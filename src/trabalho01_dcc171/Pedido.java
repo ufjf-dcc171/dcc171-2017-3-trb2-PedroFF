@@ -17,7 +17,8 @@ public class Pedido {
     private List<Item> itens;
     private boolean conta; // enquanto for true, podem ser adicionados mais itens ao pedido.
 
-    public Pedido() {    
+    public Pedido(int numPedido) {
+        this.numPedido = numPedido;
         horaAbriu = horaAbertura.toString();
         this.conta = true;
     }
@@ -59,10 +60,10 @@ public class Pedido {
     public String toString() {
         if (this.conta == false){ 
             
-            return "Pedido "+this.numPedido+ "|| Hora de Abertura: " + this.horaAbriu + "|| Hora que Fechou: " +horaFechamento.toString();
+            return "Pedido "+this.numPedido+ " || Hora de Abertura: " + this.horaAbriu + " || Hora que Fechou: " +horaFechamento.toString();
             
         }else{
-        return "Pedido "+this.numPedido+ "|| Hora de Abertura: " + this.horaAbriu;
+        return "Pedido "+this.numPedido+ " || Hora de Abertura: " + this.horaAbriu;
         }
     }
     

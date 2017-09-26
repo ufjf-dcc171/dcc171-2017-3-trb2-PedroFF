@@ -19,7 +19,7 @@ public class Trabalho01_DCC171 {
     }
     
     private static List<Mesa> getSampleData() {
-        Pedido p1 = new Pedido();
+        Pedido p1 = new Pedido(0);
         
         Mesa m1 = new Mesa(0);
         
