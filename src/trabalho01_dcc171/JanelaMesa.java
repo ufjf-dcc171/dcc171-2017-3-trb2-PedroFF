@@ -78,8 +78,15 @@ class JanelaMesa extends JFrame {
         excluiMesa.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                
                 if (lstMesas.isSelectionEmpty()) {
                     JOptionPane.showMessageDialog(null, "Você deveria ter selecionado uma mesa", "ERRO!", JOptionPane.ERROR_MESSAGE);
+                }
+                
+                for (Pedido p : lstMesas.getSelectedValue().getPedidos()) {
+                    if(p.isConta() == true)
+                        JOptionPane.showMessageDialog(null, "Existem pedidos em aberto. Feche-os","ERRO!", JOptionPane.ERROR_MESSAGE);
+                        return;
                 }
                 mesas.remove(lstMesas.getSelectedValue());
                 lstMesas.clearSelection();
@@ -120,7 +127,12 @@ class JanelaMesa extends JFrame {
         addItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                if (lstPedidos.isSelectionEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Você deveria ter selecionado um Pedido", "ERRO!", JOptionPane.ERROR_MESSAGE);;
+                    return;
+                }
+                JanelaItem janela = new JanelaItem();
+                janela.setVisible(true);
             }
         });
     }
