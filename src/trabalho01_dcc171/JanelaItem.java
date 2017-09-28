@@ -6,6 +6,8 @@ import java.awt.GridLayout;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
@@ -22,6 +24,8 @@ class JanelaItem extends JFrame{
     private JTextField quantidade5 = new JTextFieldNumeros();
     private JTextField quantidade6 = new JTextFieldNumeros();
     
+    
+    
     private final JLabel item1 = new JLabel(" 1 - Refri Lata R$ 6,00");
     private final JLabel item2 = new JLabel(" 2 - RedBull R$ 12,00");   
     private final JLabel item3 = new JLabel(" 3 - Smirnoff ICE R$ 8,00"); 
@@ -36,29 +40,39 @@ class JanelaItem extends JFrame{
     private List<Item> itens = new ArrayList<>();
     private double total = 0;
 
-    public JanelaItem() throws HeadlessException {
+    public JanelaItem(Object resultado) throws HeadlessException {
         super("Adiciona Itens ao Pedido");
         setMinimumSize(new Dimension(600, 200));
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setLocationRelativeTo(null);
-        Item i1 = new Item(" Refri Lata ",5.0);
+        Item i1 = new Item(" Refri Lata ",6.0);
         Item i2 = new Item(" RedBull ",12.0);
         Item i3 = new Item(" Smirnoff ICE ",8.0);
         Item i4 = new Item(" Skol Beats ",9.0);
         Item i5 = new Item(" Vodka Orloff ",50.0);
         Item i6 = new Item(" Compo Vodka + Energético ",70.0);
+        
         itens.add(i1);
         itens.add(i2);
         itens.add(i3);
         itens.add(i4);
         itens.add(i5);
         itens.add(i6); 
-        
+
         
         JPanel organiza = new JPanel(new GridLayout(7, 2));
         JPanel botoes = new JPanel(new GridLayout(1,2));
         botoes.add(btnConfirma);
         botoes.add(btnCancela);
+        
+        
+        quantidade1.setText("0");
+        quantidade2.setText("0");
+        quantidade3.setText("0");
+        quantidade4.setText("0");
+        quantidade5.setText("0");
+        quantidade6.setText("0");
+
         
         organiza.add(item1);
         organiza.add(quantidade1);
@@ -95,9 +109,11 @@ class JanelaItem extends JFrame{
                 total += ((Integer.parseInt(quantidade5.getText()))) * (itens.get(4).getPreco());
                 total += ((Integer.parseInt(quantidade6.getText()))) * (itens.get(5).getPreco());
                 
-                valtotal.setText(" "+ total);
+                valtotal.setText(" TOTAL "+" "+ total);
             }
         });
+        
+        resultado = valtotal.toString();
     }
     
     

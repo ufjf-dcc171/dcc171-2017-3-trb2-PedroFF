@@ -14,6 +14,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -31,15 +32,22 @@ class JanelaMesa extends JFrame {
     private final JButton excluiPedido = new JButton("Fechar Pedido");
     private final JButton addItem = new JButton("Adiciona Item");
     private final JButton cardapio = new JButton("Cardápio");
-    private JanelaItem janelaitem = new JanelaItem();
+    private JanelaItem janelaitem;
+    private final JTextArea descPedido = new JTextArea(15, 15);
+    private Object resultado = "TESTE";
 
     public JanelaMesa(List<Mesa> sampleData) {
         super("Mesas");
         setMinimumSize(new Dimension(700, 300));
         this.mesas = sampleData;
         lstMesas.setModel(new MesaListModel(mesas));
+        
+        
+        descPedido.setText("Descrição do Pedido");
         add(new JScrollPane(lstMesas), BorderLayout.WEST);
         add(new JScrollPane(lstPedidos), BorderLayout.CENTER);
+        add(descPedido, BorderLayout.EAST);
+        
         JPanel botoes = new JPanel(new GridLayout(1, 6));
         botoes.add(criaMesa);
         botoes.add(excluiMesa);
@@ -61,6 +69,20 @@ class JanelaMesa extends JFrame {
                     lstPedidos.setModel(new DefaultListModel<>());
                 }
 
+            }
+        });
+        
+        lstPedidos.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                Pedido p = new Pedido();
+                if (p != null) {
+                    descPedido.setText(resultado.toString());
+                    descPedido.updateUI();
+                    lstPedidos.updateUI();
+                } else {
+                    return;
+                }
             }
         });
 
@@ -131,10 +153,14 @@ class JanelaMesa extends JFrame {
                     JOptionPane.showMessageDialog(null, "Você deveria ter selecionado um Pedido", "ERRO!", JOptionPane.ERROR_MESSAGE);;
                     return;
                 }
-                JanelaItem janela = new JanelaItem();
+                JanelaItem janela = new JanelaItem(resultado);
                 janela.setVisible(true);
+                System.out.println(resultado.toString());
             }
         });
+        
+        
+        
     }
 
     public void adicionaPedido(Pedido p) {

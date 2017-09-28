@@ -23,6 +23,10 @@ public class Pedido {
         this.conta = true;
     }
 
+    public Pedido() {
+    }
+    
+
     public List<Item> getItens() {
         return itens;
     }
