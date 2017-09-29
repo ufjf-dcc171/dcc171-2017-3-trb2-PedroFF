@@ -36,6 +36,7 @@ class JanelaMesa extends JFrame {
     private final JTextArea descPedido = new JTextArea(15, 30);
     private StringBuilder resultado = new StringBuilder();
     private JanelaItem janela;
+    private JanelaCardapio janelaCardapio;
 
     public JanelaMesa() throws HeadlessException {
         this.mesas = null;
@@ -63,6 +64,7 @@ class JanelaMesa extends JFrame {
         this.mesas = sampleData;
         lstMesas.setModel(new MesaListModel(mesas));
         janela = new JanelaItem(this);
+        janelaCardapio = new JanelaCardapio(this);
         
         add(new JScrollPane(lstMesas), BorderLayout.WEST);
         add(new JScrollPane(lstPedidos), BorderLayout.CENTER);
@@ -184,7 +186,7 @@ class JanelaMesa extends JFrame {
         cardapio.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                 
+                janelaCardapio.setVisible(true);
             }
         });
     }
