@@ -16,7 +16,8 @@ public class Pedido {
     private int numPedido = 0;
     private List<Item> itens;
     private boolean conta; // enquanto for true, podem ser adicionados mais itens ao pedido.
-
+    private double valorFinal;
+    
     public Pedido(int numPedido) {
         this.numPedido = numPedido;
         horaAbriu = horaAbertura.toString();
@@ -69,6 +70,18 @@ public class Pedido {
         }else{
             return "Pedido "+this.numPedido+ " || Hora de Abertura: " + this.horaAbriu;
         }
+    }
+
+    public double getValorFinal() {
+        return valorFinal;
+    }
+
+    private void setValorFinal(double valorFinal) {
+        this.valorFinal = valorFinal;
+    }
+    
+    void acrescentaFinal(Double preco, Pedido p1){
+        p1.setValorFinal(p1.getValorFinal() + preco);
     }
     
     
