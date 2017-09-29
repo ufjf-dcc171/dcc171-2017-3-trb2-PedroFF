@@ -67,7 +67,7 @@ public class Pedido {
             return "Pedido "+this.numPedido+ " || Hora de Abertura: " + this.horaAbriu + " || Hora que Fechou: " +horaFechamento.toString();
             
         }else{
-        return "Pedido "+this.numPedido+ " || Hora de Abertura: " + this.horaAbriu;
+            return "Pedido "+this.numPedido+ " || Hora de Abertura: " + this.horaAbriu;
         }
     }
     

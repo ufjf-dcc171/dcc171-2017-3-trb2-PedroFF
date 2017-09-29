@@ -3,6 +3,7 @@ package trabalho01_dcc171;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalTime;
@@ -32,18 +33,37 @@ class JanelaMesa extends JFrame {
     private final JButton excluiPedido = new JButton("Fechar Pedido");
     private final JButton addItem = new JButton("Adiciona Item");
     private final JButton cardapio = new JButton("Cardápio");
-    private JanelaItem janelaitem;
     private final JTextArea descPedido = new JTextArea(15, 15);
-    private Object resultado = "TESTE";
+    private String resultado;
+    private JanelaItem janela;
 
+    public JanelaMesa() throws HeadlessException {
+        this.mesas = null;
+    }
+
+    public JTextArea getDescPedido() {
+        return descPedido;
+    }
+    
+    
+
+    public JanelaItem getJanela() {
+        return janela;
+    }
+
+    public void setJanela(JanelaItem janela) {
+        this.janela = janela;
+    }
+    
+    
+    
     public JanelaMesa(List<Mesa> sampleData) {
         super("Mesas");
         setMinimumSize(new Dimension(700, 300));
         this.mesas = sampleData;
         lstMesas.setModel(new MesaListModel(mesas));
+        janela = new JanelaItem(this);
         
-        
-        descPedido.setText("Descrição do Pedido");
         add(new JScrollPane(lstMesas), BorderLayout.WEST);
         add(new JScrollPane(lstPedidos), BorderLayout.CENTER);
         add(descPedido, BorderLayout.EAST);
@@ -77,7 +97,6 @@ class JanelaMesa extends JFrame {
             public void valueChanged(ListSelectionEvent e) {
                 Pedido p = new Pedido();
                 if (p != null) {
-                    descPedido.setText(resultado.toString());
                     descPedido.updateUI();
                     lstPedidos.updateUI();
                 } else {
@@ -152,22 +171,33 @@ class JanelaMesa extends JFrame {
                 if (lstPedidos.isSelectionEmpty()) {
                     JOptionPane.showMessageDialog(null, "Você deveria ter selecionado um Pedido", "ERRO!", JOptionPane.ERROR_MESSAGE);;
                     return;
-                }
-                JanelaItem janela = new JanelaItem(resultado);
+                } else if(lstPedidos.getSelectedValue().isConta() == false){return;}
+                
                 janela.setVisible(true);
-                System.out.println(resultado.toString());
+
             }
         });
         
-        
-        
+        cardapio.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                 
+            }
+        });
     }
 
-    public void adicionaPedido(Pedido p) {
-        lstMesas.getSelectedValue().getPedidos().add(p);
-        lstMesas.updateUI();
-        lstPedidos.updateUI();
-
+    public String getResultado() {
+        return resultado;
     }
 
+    public void setResultado(String resultado) {
+        this.resultado = resultado;
+    }
+
+    void enviaTotal(String text) {
+        this.descPedido.setText(text);
+    }
+    
+    
+     
 }

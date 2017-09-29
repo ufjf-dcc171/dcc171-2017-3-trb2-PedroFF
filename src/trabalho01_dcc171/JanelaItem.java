@@ -32,19 +32,24 @@ class JanelaItem extends JFrame{
     private final JLabel item4 = new JLabel(" 4 - Skol Beats R$ 9,00"); 
     private final JLabel item5 = new JLabel(" 5 - Vodka Orloff R$ 50,00"); 
     private final JLabel item6 = new JLabel(" 6 - Combo Vodka + Energético R$ 70,00");  
-    private final JLabel valtotal = new JLabel(" TOTAL: ");
+    private final JLabel valtotal = new JLabel();
     
     private JButton btnConfirma = new JButton("Confirma");
     private JButton btnCancela = new JButton("Cancela");
     
+    JanelaMesa mesa;
+    
     private List<Item> itens = new ArrayList<>();
     private double total = 0;
+    private StringBuilder detalhes;
 
-    public JanelaItem(Object resultado) throws HeadlessException {
+    public JanelaItem(JanelaMesa j) throws HeadlessException {
         super("Adiciona Itens ao Pedido");
         setMinimumSize(new Dimension(600, 200));
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setLocationRelativeTo(null);
+        this.mesa = j;
+        
         Item i1 = new Item(" Refri Lata ",6.0);
         Item i2 = new Item(" RedBull ",12.0);
         Item i3 = new Item(" Smirnoff ICE ",8.0);
@@ -109,12 +114,20 @@ class JanelaItem extends JFrame{
                 total += ((Integer.parseInt(quantidade5.getText()))) * (itens.get(4).getPreco());
                 total += ((Integer.parseInt(quantidade6.getText()))) * (itens.get(5).getPreco());
                 
-                valtotal.setText(" TOTAL "+" "+ total);
+                valtotal.setText(" TOTAL: "+" "+ total);
+                
+                mesa.enviaTotal(valtotal.getText());
+                setVisible(false);
             }
-        });
-        
-        resultado = valtotal.toString();
+        });        
     }
-    
+
+    public JanelaMesa getMesa() {
+        return mesa;
+    }
+
+    public void setMesa(JanelaMesa mesa) {
+        this.mesa = mesa;
+    }
     
 }
