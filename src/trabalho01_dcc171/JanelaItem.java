@@ -31,7 +31,7 @@ class JanelaItem extends JFrame {
     private final JLabel item4 = new JLabel(" 4 - Skol Beats R$ 9,00");
     private final JLabel item5 = new JLabel(" 5 - Vodka Orloff R$ 50,00");
     private final JLabel item6 = new JLabel(" 6 - Combo Vodka + Energético R$ 70,00");
-    private final JLabel valtotal = new JLabel(" TOTAL: ");
+    private final JLabel valtotal = new JLabel(" TOTAL Parcial: ");
 
     private JButton btnConfirma = new JButton("Confirma");
     private JButton btnCancela = new JButton("Cancela");
@@ -134,7 +134,7 @@ class JanelaItem extends JFrame {
                 itemPedido.get(5).setNome(itens.get(5).getNome());
                 itemPedido.get(5).setQuantidade(Integer.parseInt(quantidade6.getText()));
 
-                valtotal.setText(" TOTAL: " + " " + total);
+                valtotal.setText(" TOTAL Parcial: " + total);
 
                 mesa.enviaTotal(itemPedido, valtotal.getText());
                 setVisible(false);
@@ -144,7 +144,7 @@ class JanelaItem extends JFrame {
                 quantidade4.setText("0");
                 quantidade5.setText("0");
                 quantidade6.setText("0");
-                valtotal.setText(" TOTAL: ");
+                valtotal.setText(" TOTAL Parcial: ");
                 total = 0;
             }
         });

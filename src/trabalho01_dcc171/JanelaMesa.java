@@ -163,7 +163,7 @@ class JanelaMesa extends JFrame {
                     JOptionPane.showMessageDialog(null, "Você deveria ter selecionado um Pedido", "ERRO!", JOptionPane.ERROR_MESSAGE);;
                 }
                 lstPedidos.getSelectedValue().setConta(false);
-                resultado.append("\n" + "TOTAL FINAL: " + lstPedidos.getSelectedValue().getValorFinal());
+                resultado.append("\n" + " TOTAL FINAL: " + lstPedidos.getSelectedValue().getValorFinal());
                 descPedido.setText(resultado.toString());
                 lstPedidos.getSelectedValue().setHoraFechamento(LocalTime.now());
                 lstPedidos.updateUI();
@@ -196,15 +196,16 @@ class JanelaMesa extends JFrame {
         for (ItemPedido itemPedido : p) {
             resultado.append("\n");
             resultado.append(itemPedido.toString());
-            resultado.append("\n");
+            
             
         }
         
-        
+        resultado.append("\n");
         resultado.append(text);
+        resultado.append("\n");
         this.descPedido.setText(resultado.toString());
         
-        lstPedidos.getSelectedValue().acrescentaFinal(Double.parseDouble(text.substring(7)), lstPedidos.getSelectedValue());
+        lstPedidos.getSelectedValue().acrescentaFinal(Double.parseDouble(text.substring(15)), lstPedidos.getSelectedValue());
     }
 
     
