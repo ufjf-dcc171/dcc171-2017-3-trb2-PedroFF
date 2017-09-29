@@ -1,7 +1,9 @@
 # ufjf-dcc171-2017-3-trb1-PedroFF
 ufjf-dcc171-2017-3-trb1-PedroFF created by GitHub Classroom
 
+
 Nome: Pedro Fernandes Freitas 
+
 Matrícula: 201576039
 
 2. Cenário do sistema:
@@ -14,12 +16,15 @@ adicionado, ele calcula o valor parcial e quando o pedido for fechado, ele mostr
 que o pedido foi fechado. Após o pedido ser fechado se torna impossível adicionar mais itens.
   O sistema também possui uma função de cardápio, no qual aparece a lista de produtos disponíveis e seu respectivos preços.
 
-
 3. Modelo de dados:
-4. Campos necessários para construção das telas:
-5. Descrição de pontos importantes:
-6. Pontos de maior dificuldade:
 
+4. Campos necessários para construção das telas:
+
+5. Descrição de pontos importantes:
+
+6. Pontos de maior dificuldade:
+  Os pontos que mais tive dificuldade na implementação foram as trocas de mensagens entre janelas e também a implementação de
+estruturas dinâmicas para criação de itens.
 
 7. Futuras Melhorias:
   Bom, o sistema está muito estático, ele funciona baseado no conjunto de produtos pré-definidos. Atende os requisitos do
