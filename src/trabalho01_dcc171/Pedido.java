@@ -15,14 +15,14 @@ public class Pedido {
     private LocalTime horaFechamento;
     private int numPedido = 0;
     private List<Item> itens;
-    private String descricao;
+    private StringBuilder descricao = new StringBuilder();
     private boolean conta; // enquanto for true, podem ser adicionados mais itens ao pedido.
     private double valorFinal;
     
     public Pedido(int numPedido) {
         this.numPedido = numPedido;
         horaAbriu = horaAbertura.toString();
-        this.descricao = "Descrição do Pedido";
+        this.descricao.append("Descrição do Pedido");
         this.conta = true;
     }
 
@@ -85,6 +85,23 @@ public class Pedido {
     void acrescentaFinal(Double preco, Pedido p1){
         p1.setValorFinal(p1.getValorFinal() + preco);
     }
+
+    public StringBuilder getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(StringBuilder descricao) {
+        this.descricao = descricao;
+    }
+
+    String imprimeFinal(Pedido selectedValue) {
+        Pedido p1 = new Pedido();
+        p1 = selectedValue;
+        p1.descricao.append("\n" + " TOTAL: "+ p1.getValorFinal());
+        return p1.descricao.toString();
+    }
+
+    
     
     
     

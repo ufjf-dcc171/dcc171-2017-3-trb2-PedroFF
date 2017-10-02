@@ -134,7 +134,7 @@ class JanelaItem extends JFrame {
                 itemPedido.get(5).setNome(itens.get(5).getNome());
                 itemPedido.get(5).setQuantidade(Integer.parseInt(quantidade6.getText()));
 
-                valtotal.setText(" TOTAL Parcial: " + total);
+                valtotal.setText(" " + total);
 
                 mesa.enviaTotal(itemPedido, valtotal.getText());
                 setVisible(false);
@@ -144,7 +144,7 @@ class JanelaItem extends JFrame {
                 quantidade4.setText("0");
                 quantidade5.setText("0");
                 quantidade6.setText("0");
-                valtotal.setText(" TOTAL Parcial: ");
+                valtotal.setText("");
                 total = 0;
             }
         });

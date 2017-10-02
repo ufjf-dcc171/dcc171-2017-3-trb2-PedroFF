@@ -33,8 +33,8 @@ class JanelaMesa extends JFrame {
     private final JButton excluiPedido = new JButton("Fechar Pedido");
     private final JButton addItem = new JButton("Adiciona Item");
     private final JButton cardapio = new JButton("Cardápio");
-    private final JTextArea descPedido = new JTextArea(15, 30);
-    private StringBuilder resultado = new StringBuilder();
+    private final JTextArea descPedido = new JTextArea(15, 35);
+    
     private JanelaItem janela;
     private JanelaCardapio janelaCardapio;
 
@@ -60,7 +60,7 @@ class JanelaMesa extends JFrame {
     
     public JanelaMesa(List<Mesa> sampleData) {
         super("Mesas");
-        setMinimumSize(new Dimension(700, 300));
+        setMinimumSize(new Dimension(950, 600));
         this.mesas = sampleData;
         lstMesas.setModel(new MesaListModel(mesas));
         janela = new JanelaItem(this);
@@ -99,7 +99,7 @@ class JanelaMesa extends JFrame {
             public void valueChanged(ListSelectionEvent e) {
                 Pedido p = new Pedido();
                 if (p != null) {
-                    descPedido.setText("Descrição do pedido.");
+                    descPedido.setText(lstPedidos.getSelectedValue().getDescricao().toString());
                     descPedido.updateUI();
                     lstPedidos.updateUI();
                 } else {
@@ -163,8 +163,8 @@ class JanelaMesa extends JFrame {
                     JOptionPane.showMessageDialog(null, "Você deveria ter selecionado um Pedido", "ERRO!", JOptionPane.ERROR_MESSAGE);;
                 }
                 lstPedidos.getSelectedValue().setConta(false);
-                resultado.append("\n" + " TOTAL FINAL: " + lstPedidos.getSelectedValue().getValorFinal());
-                descPedido.setText(resultado.toString());
+                descPedido.setText(lstPedidos.getSelectedValue().imprimeFinal(lstPedidos.getSelectedValue()));
+                
                 lstPedidos.getSelectedValue().setHoraFechamento(LocalTime.now());
                 lstPedidos.updateUI();
             }
@@ -174,9 +174,13 @@ class JanelaMesa extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (lstPedidos.isSelectionEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Você deveria ter selecionado um Pedido", "ERRO!", JOptionPane.ERROR_MESSAGE);;
+                    JOptionPane.showMessageDialog(null, "Você deveria ter selecionado um Pedido", "ERRO!", JOptionPane.ERROR_MESSAGE);
                     return;
-                } else if(lstPedidos.getSelectedValue().isConta() == false){return;}
+                } else if(lstPedidos.getSelectedValue().isConta() == false)
+                    {
+                        JOptionPane.showMessageDialog(null, "Este pedido está fechado!", "ERRO!", JOptionPane.ERROR_MESSAGE);
+                        return; 
+                    }
                 
                 janela.setVisible(true);
                 
@@ -194,18 +198,18 @@ class JanelaMesa extends JFrame {
 
     void enviaTotal(List<ItemPedido> p ,String text) {
         for (ItemPedido itemPedido : p) {
-            resultado.append("\n");
-            resultado.append(itemPedido.toString());
+            lstPedidos.getSelectedValue().getDescricao().append("\n");
+            lstPedidos.getSelectedValue().getDescricao().append(itemPedido.toString());
             
             
         }
         
-        resultado.append("\n");
-        resultado.append(text);
-        resultado.append("\n");
-        this.descPedido.setText(resultado.toString());
+        lstPedidos.getSelectedValue().getDescricao().append("\n");
+        lstPedidos.getSelectedValue().getDescricao().append(" Total Parcial: "+text);
+        lstPedidos.getSelectedValue().getDescricao().append("\n");
+        this.descPedido.setText(lstPedidos.getSelectedValue().getDescricao().toString());
         
-        lstPedidos.getSelectedValue().acrescentaFinal(Double.parseDouble(text.substring(15)), lstPedidos.getSelectedValue());
+        lstPedidos.getSelectedValue().acrescentaFinal(Double.parseDouble(text), lstPedidos.getSelectedValue());
     }
 
     
