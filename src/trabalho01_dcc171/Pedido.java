@@ -15,11 +15,13 @@ public class Pedido {
     private LocalTime horaFechamento;
     private int numPedido = 0;
     private List<Item> itens;
+    private String descricao;
     private boolean conta; // enquanto for true, podem ser adicionados mais itens ao pedido.
 
     public Pedido(int numPedido) {
         this.numPedido = numPedido;
         horaAbriu = horaAbertura.toString();
+        this.descricao = "Descrição do Pedido";
         this.conta = true;
     }
 
