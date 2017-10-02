@@ -17,10 +17,17 @@ que o pedido foi fechado. Após o pedido ser fechado se torna impossível adicio
   O sistema também possui uma função de cardápio, no qual aparece a lista de produtos disponíveis e seu respectivos preços.
 
 3. Modelo de dados:
+  O modelo de dados foi feito na ferramenta Astah e está disponível no link abaixo:
+https://drive.google.com/open?id=0B5pA2JYfU-fbT0dLTW85N0lIVTg
 
 4. Campos necessários para construção das telas:
-
+  Foram necessários JTextFields modificados para só receberem números, JLabels para disponibilizar informações, JPanel para poder organizar melhor a tela dentro dos layouts disponíveis e  JButton para a criação de botões.
+  
 5. Descrição de pontos importantes:
+  O sistema começa com Itens pré-definidos e uma mesa aberta. O sistema permite a criação de mais de um pedido por mes e assim 
+que o pedido é feito, aparece na tela ao lado a descrição desse pedido e o valor parcial da conta. Assim que o pedido for 
+fechado, não é  mais possível adicionar itens ao mesmo e também não é permitido excluir a mesa na qual o pedido se localiza
+pois se não os detalhes do pedido seriam perdidos.
 
 6. Pontos de maior dificuldade:
   Os pontos que mais tive dificuldade na implementação foram as trocas de mensagens entre janelas e também a implementação de
