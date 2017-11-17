@@ -11,7 +11,7 @@ public class Trabalho01_DCC171 {
 
     public static void main(String[] args) {
                 
-        JanelaMesa janela = new JanelaMesa(getSampleData()); 
+        Janela janela = new Janela(getSampleData()); 
         janela.setSize(700, 300);
         janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         janela.setLocationRelativeTo(null);

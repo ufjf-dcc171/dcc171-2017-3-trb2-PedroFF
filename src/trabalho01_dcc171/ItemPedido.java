@@ -1,32 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package trabalho01_dcc171;
 
-/**
- *
- * @author pedrofreitas
- */
+
 public class ItemPedido {
-    private String nome;
+    private Item item;
     private int quantidade;
 
     public ItemPedido() {
     }
 
-    public ItemPedido(String nome, int quantidade) {
-        this.nome = nome;
+    public ItemPedido(Item item, int quantidade) {
+        this.item = item;
         this.quantidade = quantidade;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
     }
 
     public int getQuantidade() {
@@ -39,7 +24,7 @@ public class ItemPedido {
 
     @Override
     public String toString() {
-        return   " Nome: " + nome + "|| Quantidade: " + quantidade +" ";
+        return    "Item: "+ item + " || Quantidade: " + quantidade +" ";
         
     }
     
