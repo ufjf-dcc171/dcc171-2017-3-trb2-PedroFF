@@ -1,18 +1,17 @@
 
-package trabalho01_dcc171;
+package trabalho02_dcc171;
 
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
 
 
-public class Trabalho01_DCC171 {
+public class Trabalho02_DCC171 {
 
 
     public static void main(String[] args) {
                 
-        Janela janela = new Janela(getSampleData()); 
-        janela.setSize(700, 300);
+        JanelaMesa janela = new JanelaMesa(getSampleData()); 
         janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         janela.setLocationRelativeTo(null);
         janela.setVisible(true);
