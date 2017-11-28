@@ -19,8 +19,10 @@ public class ItemListModel implements ListModel<Item>{
         this.itens = itens;
         this.dataListeners = new ArrayList<>();
     }
-    
-    
+
+    public List<Item> getItens() {
+        return itens;
+    }
     
     @Override
     public int getSize() {
