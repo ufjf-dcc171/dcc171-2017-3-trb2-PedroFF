@@ -228,7 +228,7 @@ public class JanelaMesa extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAddItemActionPerformed
 
     private void btnCardapioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCardapioActionPerformed
-       
+        janelaCardapio.setVisible(true);
     }//GEN-LAST:event_btnCardapioActionPerformed
 
 
@@ -244,4 +244,14 @@ public class JanelaMesa extends javax.swing.JFrame {
     private javax.swing.JScrollPane scrollMesas;
     private javax.swing.JScrollPane scrollPedidos;
     // End of variables declaration//GEN-END:variables
+
+    void gravarproduto(String nome,int qtd ,double preco) {
+       resultado.append(nome).append(": " + "R$").append(preco).append("\n").append("Quantidade: ").append(qtd).append("\n");
+       descricaoPedido.setText(resultado.toString());
+    }
+    void recebetotal( double total){
+        resultado.append("\n").append("Total parcial: ").append(total).append("\n");
+        descricaoPedido.setText(resultado.toString());
+        lstPedidos.getSelectedValue().acrescentaFinal(total, lstPedidos.getSelectedValue());
+    }
 }
