@@ -97,7 +97,6 @@ public class Pedido {
     String imprimeFinal(Pedido selectedValue) {
         Pedido p1 = new Pedido();
         p1 = selectedValue;
-        p1.descricao.append("\n" + " TOTAL: "+ p1.getValorFinal());
         return p1.descricao.toString();
     }
 
