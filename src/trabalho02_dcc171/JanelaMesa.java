@@ -18,7 +18,6 @@ public class JanelaMesa extends javax.swing.JFrame {
     private final JList<Pedido> lstPedidos = new JList<>(new DefaultListModel<>());
     private JanelaItem janelaItem;
     private JanelaCardapio janelaCardapio;
-    private StringBuilder resultado = new StringBuilder();
 
     public JanelaMesa(List<Mesa> sampleData) {
         initComponents();
@@ -47,7 +46,7 @@ public class JanelaMesa extends javax.swing.JFrame {
             public void valueChanged(ListSelectionEvent e) {
                 Pedido p = new Pedido();
                 if (p != null) {
-                    descricaoPedido.setText("Descrição do pedido.");
+                    descricaoPedido.setText(lstPedidos.getSelectedValue().imprimeFinal(lstPedidos.getSelectedValue()));
                     descricaoPedido.updateUI();
                     lstPedidos.updateUI();
                 } else {
@@ -210,8 +209,8 @@ public class JanelaMesa extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Você deveria ter selecionado um Pedido", "ERRO!", JOptionPane.ERROR_MESSAGE);;
         }
         lstPedidos.getSelectedValue().setConta(false);
-        resultado.append("\n" + " TOTAL FINAL: " + lstPedidos.getSelectedValue().getValorFinal());
-        descricaoPedido.setText(resultado.toString());
+        lstPedidos.getSelectedValue().getDescricao().append("\n" + " TOTAL FINAL: " + lstPedidos.getSelectedValue().getValorFinal());
+        descricaoPedido.setText(lstPedidos.getSelectedValue().imprimeFinal(lstPedidos.getSelectedValue()));
         lstPedidos.getSelectedValue().setHoraFechamento(LocalTime.now());
         lstPedidos.updateUI();
     }//GEN-LAST:event_btnFechaPedidoActionPerformed
@@ -246,12 +245,12 @@ public class JanelaMesa extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     void gravarproduto(String nome,int qtd ,double preco) {
-       resultado.append(nome).append(": " + "R$").append(preco).append("\n").append("Quantidade: ").append(qtd).append("\n");
-       descricaoPedido.setText(resultado.toString());
+       lstPedidos.getSelectedValue().getDescricao().append("\n").append(nome).append(": " + "R$").append(preco).append("\n").append("Quantidade: ").append(qtd).append("\n");
+       descricaoPedido.setText(lstPedidos.getSelectedValue().imprimeFinal(lstPedidos.getSelectedValue()));
     }
     void recebetotal( double total){
-        resultado.append("\n").append("Total parcial: ").append(total).append("\n");
-        descricaoPedido.setText(resultado.toString());
+        lstPedidos.getSelectedValue().getDescricao().append("\n").append("Total parcial: ").append(total + lstPedidos.getSelectedValue().getValorFinal()).append("\n");
+        descricaoPedido.setText(lstPedidos.getSelectedValue().imprimeFinal(lstPedidos.getSelectedValue()));
         lstPedidos.getSelectedValue().acrescentaFinal(total, lstPedidos.getSelectedValue());
     }
 }
