@@ -125,7 +125,7 @@ public class Pedido {
     }
 
     public Double getValorTotal() {
-        for (ItemPedido item : itemPedido) {
+        for (ItemPedido item : itensPedidos) {
             valorFinal += item.getValorTotal();
         }
         double n = 0;
@@ -174,6 +174,10 @@ public class Pedido {
         int cod = gerador.getIDItemPedido();
         gerador.addIDItemPedido(cod);
         return cod;
+    }
+
+    void setValorTotal(Double total) {
+      this.valorFinal = total;
     }
 
 }

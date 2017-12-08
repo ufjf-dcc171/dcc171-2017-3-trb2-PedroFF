@@ -29,6 +29,7 @@ public class ItemPedidoDAO {
     }
 
     private List<ItemPedido> listarTodos(Pedido pedido) throws FileNotFoundException, IOException {
+        Double total=0.0;
         File arquivo = ItemPedido.criaArquivo(pedido);
         if (!(arquivo).exists()) {
             arquivo.createNewFile();
@@ -40,8 +41,9 @@ public class ItemPedidoDAO {
         while ((s = br.readLine()) != null) {
             ItemPedido ip = ItemPedido.ToObject(s,pedido);
             lista.add(ip);
+            total +=ip.getValorTotal();
         }
-
+        pedido.setValorTotal(total);
         br.close();
         fr.close();
         return lista;
