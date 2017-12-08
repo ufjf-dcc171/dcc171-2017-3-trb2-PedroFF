@@ -96,7 +96,7 @@ public class PedidoDAO {
     }
 
     private boolean gravarAlteracoes(Pedido pedido) throws FileNotFoundException, IOException {
-         File arquivo = Pedido.criaArquivo(mesa);
+        File arquivo = Pedido.criaArquivo(mesa);
         if (!(arquivo).exists()) {
             arquivo.createNewFile();
         }
@@ -107,7 +107,7 @@ public class PedidoDAO {
         boolean alterado = false;
         while ((s = br.readLine()) != null) {
             Pedido p = Pedido.ToObject(s);
-            if (p.getMesa().getNumMesa() == pedido.getMesa().getNumMesa() && p.getNumPedido() == pedido.getNumPedido() && p.isConta() == false) {
+            if (p.getMesa().getNumMesa() == pedido.getMesa().getNumMesa() && p.getNumPedido() == pedido.getNumPedido() && p.getHoraFechamento() != null) {
                 p.setConta(false);
                 p.setHoraFechamento(LocalTime.now());
                 alterado = true;

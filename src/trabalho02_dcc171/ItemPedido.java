@@ -66,7 +66,7 @@ public class ItemPedido {
 
     @Override
     public String toString() {
-        return "Item: " + item + " || Quantidade: " + quantidade + " ";
+        return "\nItem: " + item + " || Quantidade: " + quantidade + " \n";
 
     }
 

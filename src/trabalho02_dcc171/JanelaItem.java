@@ -23,14 +23,14 @@ public class JanelaItem extends javax.swing.JFrame {
     private List<JLabel> jlabels = new ArrayList<>();
     private List<JLabel> jprecos = new ArrayList<>();
     private List<JTextField> jtexts = new ArrayList<>();
-    JanelaMesa mesa;
+    private JanelaMesa mesa;
     private final JButton btnConfirma = new JButton("Confirma");
     private final JButton btnCancela = new JButton("Cancela");
     private ItemPedidoDAO daoItemPedido;
     private ItemPedido itemPedido;
     private Pedido pedido;
 
-    public JanelaItem(JanelaMesa mesa, Pedido pedido) throws HeadlessException {
+    public JanelaItem(JanelaMesa mesa, Pedido pedido) throws HeadlessException, IOException {
         super("Adiciona Itens ao Pedido");
 
         setMinimumSize(new Dimension(600, 200));
@@ -39,6 +39,7 @@ public class JanelaItem extends javax.swing.JFrame {
         this.mesa = mesa;
         itens = Item.getSampleData();
         this.pedido = pedido;
+        daoItemPedido = new ItemPedidoDAO(pedido);
         for (Item item : itens) {
 
             jlabels.add(new JLabel(item.getNome() + ":"));
@@ -79,22 +80,17 @@ public class JanelaItem extends javax.swing.JFrame {
                         try {
                             Item item = new Item();
                             item = itens.get(i).clonar();
-                            try {
-                                System.out.println(pedido.getNumPedido());
-                                itemPedido = new ItemPedido(pedido, item, qtd);
-                            } catch (IOException ex) {
-                                Logger.getLogger(JanelaItem.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-           
+
+                            
+                            itemPedido = new ItemPedido(pedido, item, qtd);
+
                             daoItemPedido.inserir(itemPedido);
-                            pedido.setDescricaoPedido(itemPedido.toString());
-                            
-                            
+                            mesa.getDescricaoPedido().setText(daoItemPedido.getItemPedidos().toString());
+
                         } catch (IOException ex) {
                             Logger.getLogger(JanelaItem.class.getName()).log(Level.SEVERE, null, ex);
                         }
 
-                        
                     }
                 }
                 setVisible(false);
