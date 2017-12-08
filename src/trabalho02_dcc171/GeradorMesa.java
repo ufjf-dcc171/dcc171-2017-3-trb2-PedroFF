@@ -11,7 +11,7 @@ import java.io.IOException;
 
 
 class GeradorMesa {
-     private static final File arq = new File("Dados\\Generator", "GeradorMesa.txt");
+     private static final File arq = new File("Dados\\Gerador", "GeradorMesa.txt");
 
     public static File getArq() {
         return arq;

@@ -2,14 +2,22 @@ package trabalho02_dcc171;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.ParseException;
 
 public class ItemPedido {
 
     private Item item;
+
     private int quantidade;
+
     private int id;
+
     private Pedido pedido;
+
     private PedidoDAO pedidodao;
+
     private File arq;
 
     public int getId() {
@@ -28,23 +36,16 @@ public class ItemPedido {
         this.item = item;
     }
 
-    public ItemPedido() {
-    }
 
-    public ItemPedido(Item item, int quantidade) {
-        this.item = item;
-        this.quantidade = quantidade;
-    }
-    
     public ItemPedido(Integer id_pedido, Item produto, int quantidade) throws IOException {
-       // pedidodao = new PedidoDao();
+        // pedidodao = new PedidoDao();
         Pedido ped = pedidodao.listar(id_pedido);
         this.pedido = ped;
         this.id = this.pedido.criaCodigoItemPedido();
         this.item = produto;
         this.quantidade = quantidade;
         this.arq = criaArquivo(pedido);
-        
+
     }
 
     public ItemPedido(Pedido pedido, Item produto, int quantidade) throws IOException {
@@ -76,29 +77,33 @@ public class ItemPedido {
     public void setPedido(Pedido pedido) {
         this.pedido = pedido;
     }
-    
-    
-    
+
+    public double getValorTotal() {
+        double n = 0;
+        n = item.getPreco() * quantidade;
+
+        return n;
+    }
+
     public String ToSerial() {
         return this.getPedido().getNumPedido() + ";" + this.getItem().ToSerial() + ";" + this.getQuantidade() + ";";
     }
 
-    public static ItemPedido ToObject(String s,Pedido pedido) throws IOException {
+    public static ItemPedido ToObject(String s, Pedido pedido) throws IOException {
         String[] array = s.split(";");
-        if(pedido.getNumPedido()==Integer.parseInt(array[0])){
-        Item i = (Item) Item.ToObject(array[1] + ";" + array[2] + ";" + array[3]);
-        Integer quantidade = Integer.parseInt(array[4]);
-        ItemPedido IP = new ItemPedido(pedido, i, quantidade);
-        return IP;
-        }else{
+        if (pedido.getNumPedido() == Integer.parseInt(array[0])) {
+            Item i = (Item) Item.ToObject(array[1] + ";" + array[2] + ";" + array[3]);
+            Integer quantidade = Integer.parseInt(array[4]);
+            ItemPedido IP = new ItemPedido(pedido, i, quantidade);
+            return IP;
+        } else {
             throw new IOException();
         }
-        
+
     }
 
     public static File criaArquivo(Pedido pedido) {
-        return new File("Dados\\ItensPedidos", "ItemPedido " + pedido.getDescricao() + pedido.getMesa().toString()+ ".txt");
+        return new File("Dados\\ItensPedidos", "ItemPedido " + pedido.getDescricaoPedido()+ pedido.getMesa().toString() + ".txt");
     }
-
 
 }

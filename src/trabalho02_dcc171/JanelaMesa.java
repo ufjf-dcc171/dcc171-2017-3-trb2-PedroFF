@@ -1,7 +1,11 @@
 package trabalho02_dcc171;
 
+import java.io.IOException;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -9,49 +13,54 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-public class JanelaMesa extends javax.swing.JFrame {
+public class JanelaMesa extends javax.swing.JFrame  {
 
-    private int numMesas = 1;
-    private int numPedidos = 1;
-    private final List<Mesa> mesas;
-    private final JList<Mesa> lstMesas = new JList<>(new DefaultListModel<>());
-    private final JList<Pedido> lstPedidos = new JList<>(new DefaultListModel<>());
+    private List<Mesa> mesas;
+    private JList<Mesa> lstMesas = new JList<>(new DefaultListModel<>());
+    private JList<Pedido> lstPedidos = new JList<>(new DefaultListModel<>());
     private JanelaItem janelaItem;
     private JanelaCardapio janelaCardapio;
-
-    public JanelaMesa(List<Mesa> sampleData) {
+    private LocalTime t;
+    private MesaDAO daoMesa;
+    private Pedido pedido;
+    private PedidoDAO daoPedido;
+    
+    public JanelaMesa() throws IOException {
         initComponents();
-        this.mesas = sampleData;
+        t = LocalTime.now();
+        this.daoMesa = new MesaDAO();
+        this.mesas = daoMesa.getMesas();
         lstMesas.setModel(new MesaListModel(mesas));
-        lstMesas.setModel(new MesaListModel(mesas));
-        janelaItem = new JanelaItem(this);
         janelaCardapio = new JanelaCardapio(this);
-
+        janelaItem = new JanelaItem(this, lstPedidos.getSelectedValue());
+        
+        
         lstMesas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         lstMesas.addListSelectionListener(new ListSelectionListener() {
+            PedidoDAO daoPedido;
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                Mesa selecionada = lstMesas.getSelectedValue();
-                if (selecionada != null) {
-                    System.out.println(selecionada);
-                    lstPedidos.setModel(new PedidoListModel(selecionada.getPedidos()));
-                } else {
-                    lstPedidos.setModel(new DefaultListModel<>());
-                }
+                    try {
+                        Mesa selecionada = lstMesas.getSelectedValue();
+                        try {
+                            this.daoPedido = new PedidoDAO(selecionada);
+                        } catch (IOException ex) {
+                            Logger.getLogger(JanelaMesa.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        lstPedidos.setModel(new PedidoListModel(lstMesas.getSelectedValue()));
+                        
+                        
+                    } catch (IOException ex) {
+                        Logger.getLogger(JanelaMesa.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
 
             }
         });
         lstPedidos.addListSelectionListener(new ListSelectionListener() {
             @Override
-            public void valueChanged(ListSelectionEvent e) {
-                Pedido p = new Pedido();
-                if (p != null) {
-                    descricaoPedido.setText(lstPedidos.getSelectedValue().imprimeFinal(lstPedidos.getSelectedValue()));
-                    descricaoPedido.updateUI();
-                    lstPedidos.updateUI();
-                } else {
-                    return;
-                }
+            public void valueChanged(ListSelectionEvent e)  {
+                descricaoPedido.setText(lstPedidos.getSelectedValue().getDescricaoPedido());
             }
         });
     }
@@ -170,10 +179,16 @@ public class JanelaMesa extends javax.swing.JFrame {
 
     private void btnCriaMesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCriaMesaActionPerformed
 
-        Mesa t = new Mesa(numMesas);
-        mesas.add(t);
+        Mesa t;
+        try {
+            t = new Mesa();
+            daoMesa.inserir(t);
+        } catch (IOException ex) {
+            Logger.getLogger(JanelaMesa.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        lstMesas.setModel(new MesaListModel(daoMesa.getMesas())); 
         lstMesas.updateUI();
-        numMesas++;
+        
     }//GEN-LAST:event_btnCriaMesaActionPerformed
 
     private void btnExcluiMesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluiMesaActionPerformed
@@ -187,43 +202,64 @@ public class JanelaMesa extends javax.swing.JFrame {
             }
             return;
         }
-        mesas.remove(lstMesas.getSelectedValue());
+        
+        try {
+            daoMesa.excluir(lstMesas.getSelectedValue());
+        } catch (IOException ex) {
+            Logger.getLogger(JanelaMesa.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        lstMesas.setModel(new MesaListModel(daoMesa.getMesas()));
         lstMesas.clearSelection();
         lstMesas.updateUI();
     }//GEN-LAST:event_btnExcluiMesaActionPerformed
 
     private void btnCriaPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCriaPedidoActionPerformed
-        if (lstMesas.isSelectionEmpty()) {
-            JOptionPane.showMessageDialog(null, "Você deveria ter selecionado uma mesa", "ERRO!", JOptionPane.ERROR_MESSAGE);
+        try {                                              
+            if (lstMesas.isSelectionEmpty()) {
+                JOptionPane.showMessageDialog(null, "Você deveria ter selecionado uma mesa", "ERRO!", JOptionPane.ERROR_MESSAGE);
+            }
+            
+            Pedido p;
+            LocalTime t = LocalTime.now();
+            p = new Pedido(lstMesas.getSelectedValue(), t );
+            
+            try {
+                this.daoPedido = new PedidoDAO(lstMesas.getSelectedValue());
+                daoPedido.inserir(p);
+            } catch (IOException ex) {
+                Logger.getLogger(JanelaMesa.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            lstPedidos.setModel(new PedidoListModel(lstMesas.getSelectedValue()));
+            lstPedidos.updateUI();
+            lstMesas.updateUI();
+        } catch (IOException ex) {
+            Logger.getLogger(JanelaMesa.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        Pedido p = new Pedido(numPedidos);
-        lstMesas.getSelectedValue().getPedidos().add(p);
-        lstPedidos.updateUI();
-        lstMesas.updateUI();
-        numPedidos++;
     }//GEN-LAST:event_btnCriaPedidoActionPerformed
 
     private void btnFechaPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFechaPedidoActionPerformed
-        if (lstPedidos.isSelectionEmpty()) {
-            JOptionPane.showMessageDialog(null, "Você deveria ter selecionado um Pedido", "ERRO!", JOptionPane.ERROR_MESSAGE);;
+        try {
+            if (lstPedidos.isSelectionEmpty()) {
+                JOptionPane.showMessageDialog(null, "Você deveria ter selecionado um Pedido", "ERRO!", JOptionPane.ERROR_MESSAGE);;
+            }
+            daoPedido.fecharPedido(lstPedidos.getSelectedValue().getNumPedido());
+            lstPedidos.setModel(new PedidoListModel(lstMesas.getSelectedValue()));
+            lstPedidos.updateUI();
+        } catch (IOException ex) {
+            Logger.getLogger(JanelaMesa.class.getName()).log(Level.SEVERE, null, ex);
         }
-        lstPedidos.getSelectedValue().setConta(false);
-        lstPedidos.getSelectedValue().getDescricao().append("\n" + " TOTAL FINAL: " + lstPedidos.getSelectedValue().getValorFinal());
-        descricaoPedido.setText(lstPedidos.getSelectedValue().imprimeFinal(lstPedidos.getSelectedValue()));
-        lstPedidos.getSelectedValue().setHoraFechamento(LocalTime.now());
-        lstPedidos.updateUI();
     }//GEN-LAST:event_btnFechaPedidoActionPerformed
 
     private void btnAddItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddItemActionPerformed
         if (lstPedidos.isSelectionEmpty()) {
             JOptionPane.showMessageDialog(null, "Você deveria ter selecionado um Pedido", "ERRO!", JOptionPane.ERROR_MESSAGE);;
             return;
-        } else if (lstPedidos.getSelectedValue().isConta() == false) {
+        } else if (lstPedidos.getSelectedValue().getHoraFechamento() != null) {
             return;
         }
-
+        
         janelaItem.setVisible(true);
+        this.descricaoPedido.setText(lstPedidos.getSelectedValue().getDescricaoPedido());
     }//GEN-LAST:event_btnAddItemActionPerformed
 
     private void btnCardapioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCardapioActionPerformed
@@ -244,7 +280,7 @@ public class JanelaMesa extends javax.swing.JFrame {
     private javax.swing.JScrollPane scrollPedidos;
     // End of variables declaration//GEN-END:variables
 
-    void gravarproduto(String nome,int qtd ,double preco) {
+    /*void gravarproduto(ItemPedido itemp ,double preco) {
        lstPedidos.getSelectedValue().getDescricao().append("\n").append(nome).append(": " + "R$").append(preco).append("\n").append("Quantidade: ").append(qtd).append("\n");
        descricaoPedido.setText(lstPedidos.getSelectedValue().imprimeFinal(lstPedidos.getSelectedValue()));
     }
@@ -252,5 +288,5 @@ public class JanelaMesa extends javax.swing.JFrame {
         lstPedidos.getSelectedValue().getDescricao().append("\n").append("Total parcial: ").append(total + lstPedidos.getSelectedValue().getValorFinal()).append("\n");
         descricaoPedido.setText(lstPedidos.getSelectedValue().imprimeFinal(lstPedidos.getSelectedValue()));
         lstPedidos.getSelectedValue().acrescentaFinal(total, lstPedidos.getSelectedValue());
-    }
+    }*/
 }

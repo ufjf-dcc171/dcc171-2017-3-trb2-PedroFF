@@ -24,7 +24,7 @@ class GeradorItemPedido {
 
     public GeradorItemPedido(Pedido pedido) {
         this.pedido = pedido;
-        arq =new File("Dados\\Generator", "GeneratorItemPedido "+this.pedido.getDescricao()+this.pedido.getMesa().toString()+" .txt");
+        arq =new File("Dados\\Gerador", "GeneratorItemPedido "+this.pedido.getDescricaoPedido()+this.pedido.getMesa().toString()+" .txt");
     }
     
 

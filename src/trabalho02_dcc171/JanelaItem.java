@@ -6,8 +6,11 @@ import java.awt.GridLayout;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -23,8 +26,11 @@ public class JanelaItem extends javax.swing.JFrame {
     JanelaMesa mesa;
     private final JButton btnConfirma = new JButton("Confirma");
     private final JButton btnCancela = new JButton("Cancela");
+    private ItemPedidoDAO daoItemPedido;
+    private ItemPedido itemPedido;
+    private Pedido pedido;
 
-    public JanelaItem(JanelaMesa mesa) throws HeadlessException {
+    public JanelaItem(JanelaMesa mesa, Pedido pedido) throws HeadlessException {
         super("Adiciona Itens ao Pedido");
 
         setMinimumSize(new Dimension(600, 200));
@@ -32,6 +38,7 @@ public class JanelaItem extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         this.mesa = mesa;
         itens = Item.getSampleData();
+        this.pedido = pedido;
         for (Item item : itens) {
 
             jlabels.add(new JLabel(item.getNome() + ":"));
@@ -66,15 +73,30 @@ public class JanelaItem extends javax.swing.JFrame {
             public void actionPerformed(ActionEvent e) {
                 int qtd = 0;
                 int i = 0;
-                double total = 0;
                 for (; i < jtexts.size(); i++) {
                     qtd = Integer.parseInt(jtexts.get(i).getText());
                     if (qtd > 0) {
-                        total += itens.get(i).getPreco() * qtd;
-                        mesa.gravarproduto(itens.get(i).getNome(), qtd, itens.get(i).getPreco());
+                        try {
+                            Item item = new Item();
+                            item = itens.get(i).clonar();
+                            try {
+                                System.out.println(pedido.getNumPedido());
+                                itemPedido = new ItemPedido(pedido, item, qtd);
+                            } catch (IOException ex) {
+                                Logger.getLogger(JanelaItem.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+           
+                            daoItemPedido.inserir(itemPedido);
+                            pedido.setDescricaoPedido(itemPedido.toString());
+                            
+                            
+                        } catch (IOException ex) {
+                            Logger.getLogger(JanelaItem.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+
+                        
                     }
                 }
-                mesa.recebetotal(total);
                 setVisible(false);
                 for (JTextField text : jtexts) {
 

@@ -5,6 +5,7 @@
  */
 package trabalho02_dcc171;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ListModel;
@@ -15,12 +16,15 @@ import javax.swing.event.ListDataListener;
  * @author pedrofreitas
  */
 public class PedidoListModel implements ListModel<Pedido> {
+
     private final List<Pedido> pedidos;
     private final List<ListDataListener> dataListeners;
-    
-    public PedidoListModel(List<Pedido> pedidos) {
-        this.pedidos = pedidos;
-        dataListeners =  new ArrayList<>();
+    private PedidoDAO pedidosDAO;
+
+    public PedidoListModel(Mesa mesa) throws IOException {
+        this.pedidosDAO = new PedidoDAO(mesa);
+        this.pedidos = pedidosDAO.getPedidos();
+        dataListeners = new ArrayList<>();
     }
 
     @Override
@@ -30,7 +34,10 @@ public class PedidoListModel implements ListModel<Pedido> {
 
     @Override
     public Pedido getElementAt(int index) {
-        return this.pedidos.get(index);
+        if (!pedidos.isEmpty()) {
+            return this.pedidos.get(index);
+        }
+        return null;
     }
 
     @Override
@@ -42,5 +49,6 @@ public class PedidoListModel implements ListModel<Pedido> {
     public void removeListDataListener(ListDataListener l) {
         this.dataListeners.remove(l);
     }
-    
+
+
 }

@@ -1,20 +1,21 @@
 package trabalho02_dcc171;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
 
 public class Trabalho02_DCC171 {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
-        JanelaMesa janela = new JanelaMesa(getSampleData());
+        JanelaMesa janela = new JanelaMesa();
         janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         janela.setLocationRelativeTo(null);
         janela.setVisible(true);
     }
 
-    private static List<Mesa> getSampleData() {
+    /*private static List<Mesa> getSampleData() {
         Pedido p1 = new Pedido(0);
 
         
@@ -26,5 +27,5 @@ public class Trabalho02_DCC171 {
         mesas.add(m1);
 
         return mesas;
-    }
+    }*/
 }

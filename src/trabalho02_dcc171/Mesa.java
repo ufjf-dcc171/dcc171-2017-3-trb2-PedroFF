@@ -38,13 +38,7 @@ public class Mesa {
         this.descricaoMesa = descricao;
         this.pedidos = new ArrayList<>();
     }
-    
-    
-    
-    public Mesa(Integer i) {
-        this.numMesa = i;
-        this.pedidos = new ArrayList<>();
-    }
+
 
     public int getNumMesa() {
         return numMesa;

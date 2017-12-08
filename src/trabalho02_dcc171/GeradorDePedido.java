@@ -17,7 +17,7 @@ class GeradorDePedido {
 
     public GeradorDePedido(Mesa mesa) {
         this.mesa = mesa;
-        arq =new File("Dados\\Generator", "GeneratorPedido "+this.mesa.getDescricaoMesa()+" .txt");
+        arq =new File("Dados\\Gerador", "GeneratorPedido "+this.mesa.getDescricaoMesa()+" .txt");
     }
     
 
